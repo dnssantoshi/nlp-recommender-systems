@@ -15,6 +15,12 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.45rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
 # load the embeddings
+@st.cache(persist=True)
+def load_cosines():
+    cosine_sim = pd.read_pickle("https://storage.googleapis.com/project-data-09/cosine_sim.pkl")
+    return cosine_sim
+
+
 def load_data():
     # load the data from pickle files
 
@@ -23,7 +29,7 @@ def load_data():
     indices = pd.read_pickle('indices.pkl')
 
     # loading the pickle files from google cloud storage as these files are too large to commit to Github.
-    cosine_sim = pd.read_pickle('cosine_sim.pkl')
+    cosine_sim = load_cosines()
 
     return df, cosine_sim, indices
 
