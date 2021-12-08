@@ -14,7 +14,6 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 # Define Constants
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.45rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
-
 # load the embeddings
 @st.cache(persist=True)
 def load_cosines():
