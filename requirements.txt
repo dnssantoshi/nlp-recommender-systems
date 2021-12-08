@@ -2,4 +2,4 @@ pandas
 streamlit
 plotly
 sklearn
-spacy
+# spacy==2.3.0
