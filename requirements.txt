@@ -1,5 +1,5 @@
 pandas
-streamlit==0.75
+streamlit
 plotly
 sklearn
-spacy==2.3.0
+spacy
