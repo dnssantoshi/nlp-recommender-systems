@@ -16,16 +16,15 @@ HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; borde
 
 
 # load the embeddings
+@st.cache(persist=True)
 def load_data():
     # load the data from pickle files
-
-    # loading the pickle files from google drive as these files are too large to commit to Github.
     # These files are created as part of the model building process in BuildProductRecs.py
     df = pd.read_pickle('df.pkl')
-    df = pd.read_pickle('indices.pkl')
+    indices = pd.read_pickle('indices.pkl')
 
-    cosine_url = 'https://drive.google.com/uc?id=15VWskY_3vuvwL4ZOyZtdy2uG4Vwt0XRs'
-    cosine_sim = pd.read_pickle(cosine_url)
+    # loading the pickle files from google cloud as these files are too large to commit to Github.
+    cosine_sim = pd.read_pickle("https://storage.googleapis.com/project-data-09/cosine_sim.pkl")
 
     return df, cosine_sim, indices
 
