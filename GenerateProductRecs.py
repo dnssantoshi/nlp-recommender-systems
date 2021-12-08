@@ -21,11 +21,8 @@ def load_data():
 
     # loading the pickle files from google drive as these files are too large to commit to Github.
     # These files are created as part of the model building process in BuildProductRecs.py
-    df_url = 'https://drive.google.com/uc?id=1onZ0Af2zP4jKH_xTGF1hkCBJoSUzAOat'
-    df = pd.read_pickle(df_url)
-
-    indices_url = 'https://drive.google.com/uc?id=15HZyKtXVEtL1zQ6gP3MhfDZAzjQxfigH'
-    indices = pd.read_pickle(indices_url)
+    df = pd.read_pickle('df.pkl')
+    df = pd.read_pickle('indices.pkl')
 
     cosine_url = 'https://drive.google.com/uc?id=15VWskY_3vuvwL4ZOyZtdy2uG4Vwt0XRs'
     cosine_sim = pd.read_pickle(cosine_url)
