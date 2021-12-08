@@ -9,16 +9,16 @@ import streamlit.components.v1 as components
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
-# st.title("Amazon Products Recommender")
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 # Define Constants
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.45rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
-
 
 # load the embeddings
 @st.cache(persist=True)
 def load_data():
     # load the data from pickle files
+
     # These files are created as part of the model building process in BuildProductRecs.py
     df = pd.read_pickle('df.pkl')
     indices = pd.read_pickle('indices.pkl')
@@ -196,7 +196,6 @@ class GenerateProductRecs:
 
     def construct_app(self):
         # This is the main point for application start up which triggers the rest of the function calls
-        st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
         st.markdown(
             """
