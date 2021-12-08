@@ -111,15 +111,12 @@ class GenerateProductRecs:
             unsafe_allow_html=True
         )
 
-        selection = st.sidebar.radio("", ("Products Metadata", "Similarity Scores", "User Reviews", "Product Reviews"))
+        selection = st.sidebar.radio("", ("Products Metadata","User Reviews", "Product Reviews"))
 
         if selection == 'Products Metadata':
             components.iframe(
                 "https://datastudio.google.com/embed/reporting/5ed885e1-e55c-44d6-b0e6-6c0a9d29196b/page/3oIhC",
                 height=1000)
-
-        if selection == 'Similarity Scores':
-            components.iframe()
 
         if selection == 'User Reviews':
             components.iframe(

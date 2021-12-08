@@ -7,21 +7,15 @@
 """
 
 import streamlit as st
-import os
 import json
 import gzip
 import re
 import pandas as pd
-import numpy as np
-from urllib.request import urlopen
 import warnings
-import networkx as nx
 import pickle as pkl
-import plotly.graph_objects as go
 from spacy.lang.en.stop_words import STOP_WORDS
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
-from sentence_transformers import SentenceTransformer
 
 
 warnings.filterwarnings('ignore')
