@@ -14,11 +14,13 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 # Define Constants
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.45rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
+
 # load the embeddings
 @st.cache(persist=True)
 def load_cosines():
     cosine_sim = pd.read_pickle("https://storage.googleapis.com/project-data-09/cosine_sim.pkl")
     return cosine_sim
+
 
 def load_data():
     # load the data from pickle files
@@ -32,8 +34,10 @@ def load_data():
 
     return df, cosine_sim, indices
 
+
 df, cosine_sim, indices = load_data()
 print("Data Load Complete!")
+
 
 class GenerateProductRecs:
 
@@ -114,7 +118,7 @@ class GenerateProductRecs:
             unsafe_allow_html=True
         )
 
-        selection = st.sidebar.radio("", ("Products Metadata","User Reviews", "Product Reviews"))
+        selection = st.sidebar.radio("", ("Products Metadata", "User Reviews", "Product Reviews"))
 
         if selection == 'Products Metadata':
             components.iframe(
@@ -181,20 +185,49 @@ class GenerateProductRecs:
             unsafe_allow_html=True
         )
         for i in range(1, num_recs):
-            self.pretty_print(product_titles.values[i], product_asin.values[i], product_desc.values[i],
-                              product_images.values[i][0])
-
             col_size = len(product_images.values[i])
-            with st.expander("Please click here to view additional images for " + product_titles.values[i]):
-                cols = st.columns(col_size)
+            with st.beta_expander("Please click here to view additional images for " + product_titles.values[i]):
+                cols = st.beta_columns(col_size)
                 for j in range(0, col_size):
                     cols[j].image(product_images.values[i][j], width=75)
+                st.write("</br>",unsafe_allow_html=True)
+            self.pretty_print(product_titles.values[i], product_asin.values[i], product_desc.values[i],
+                              product_images.values[i][0])
 
         return df['productTitle'].iloc[product_indices]
         print("\nCompleted!")
 
     def technical_overview(self):
-        st.sidebar.write("Here's the technical overview")
+        st.sidebar.write("Technical overview")
+        st.sidebar.radio("Abstract")
+        technical = st.sidebar.radio("", (
+        "Abstract", "Data Wrangling", "Text Embeddings", "Cosine Similarities", "Recommendations", "Reports"))
+
+        if technical == 'Abstract':
+            st.write(
+                "This application recommends products that are similar to a particular product. To acheive this, computed pairwise cosine similarity scores for all products based on the descriptions and brand attributes. The recommendation is products is based on this similarity score threshold.")
+
+        if technical == 'Data Wrangling':
+            st.write("The dataset has been wrangled before using this for creating word vectors. This include imputing any missing values, creating any aggregated attributes, removing stopwords and punctuations and retrieving the important keywords for creating word vectors.")
+
+        if technical == "Text Embeddings":
+            st.write(
+                'This is a natural language processing problem and we cannot use the raw text to compute similarities. So inorder to extract the same kind of featured products the word vectors of each description. Word vectors are the vectorized description of words in a document. The vectors carry the semantic meaning with it.')
+
+        if technical == "Recommendations":
+            st.write('1. Get the index of the product based on the product title from the user')
+            st.write('2. Retrieve the cosine similarity scores for that particular product with all products')
+            st.write('3. Enumerate with the position and the similarity score')
+            st.write('4. Get the top n recommendations where n is the user input for how many recommendations the user wants to retrieve')
+            st.write('5. Return the products corresponding to the indexes of the top recommendations')
+
+        if technical == "Reports":
+            st.subheader("Product Metadata")
+            st.write("This reflects all the product metadata along with additional attributes such as price, brand, shipping information. This also provides the capability to search for a particular product based on ASIN, Brand and Item number. It also allows the user to export the data displayed on this table.")
+            st.subheader("User Reviews Dataset")
+            st.write("This is a data dump of all the user reviews in the amazon luxury beauty product category. This provides additional information such as the product review image if any uploaded, review description, summary of the review etc.,This enables user to filter the data based on the ASIN, Reviewer Id and user rating. It also allows the user to export the data displayed on this table.")
+            st.subheader("User Reviews Dashboard")
+            st.write("This dashboard provides all the trends and the statistics of all the user reviews provided to luxury beauty category products. Some of the important questions and the kind of trends in getting user reviews are depicted over time. It enables user to filter on the data time frame they would like to see the trends for. Apart from this, user can filter with ASIN and Rating attributes.")
 
     def construct_app(self):
         # This is the main point for application start up which triggers the rest of the function calls
