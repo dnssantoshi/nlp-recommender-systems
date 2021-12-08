@@ -22,10 +22,10 @@ def load_data():
     # These files are created as part of the model building process in BuildProductRecs.py
     df = pd.read_pickle('df.pkl')
     indices = pd.read_pickle('indices.pkl')
-    cosine_sim = pd.read_pickle('cosine_sim.pkl')
+    # cosine_sim = pd.read_pickle('cosine_sim.pkl')
 
     # loading the pickle files from google cloud as these files are too large to commit to Github.
-    # cosine_sim = pd.read_pickle("https://storage.googleapis.com/project-data-09/cosine_sim.pkl")
+    cosine_sim = pd.read_pickle("https://storage.googleapis.com/project-data-09/cosine_sim.pkl")
 
     return df, cosine_sim, indices
 
