@@ -2,4 +2,4 @@ pandas
 streamlit==0.75
 plotly
 sklearn
-# spacy==2.3.0
+spacy==2.3.0
