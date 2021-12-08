@@ -29,6 +29,7 @@ def load_data():
     return df, cosine_sim, indices
 
 df, cosine_sim, indices = load_data()
+st.write("Data Load Complete!")
 
 class GenerateProductRecs:
 
