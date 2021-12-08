@@ -15,12 +15,6 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.45rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
 # load the embeddings
-@st.cache(persist=True)
-def load_cosines():
-    cosine_sim = pd.read_pickle("https://storage.googleapis.com/project-data-09/cosine_sim.pkl")
-    return cosine_sim
-
-
 def load_data():
     # load the data from pickle files
 
@@ -29,7 +23,7 @@ def load_data():
     indices = pd.read_pickle('indices.pkl')
 
     # loading the pickle files from google cloud storage as these files are too large to commit to Github.
-    cosine_sim = load_cosines()
+    cosine_sim = pd.read_pickle('cosine_sim.pkl')
 
     return df, cosine_sim, indices
 
@@ -129,7 +123,7 @@ class GenerateProductRecs:
                 "https://datastudio.google.com/embed/reporting/30d14b66-5fa5-4eb7-8bb6-260b133762a1/page/WQHhC",
                 height=1200)
 
-        if selection == 'Reviews Dashboard':    
+        if selection == 'Reviews Dashboard':
             components.iframe(
                 "https://datastudio.google.com/embed/reporting/66773423-a76a-4657-bdd9-9f739d032c50/page/j1BhC",
                 height=1000)
