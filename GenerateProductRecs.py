@@ -47,7 +47,7 @@ class GenerateProductRecs:
     def construct_sidebar(self):
         # Construct the input sidebar for user to choose the input
         st.sidebar.markdown(
-            '<p class="font-style"><b>Beauty & Personal Care</b></p><p class="font-style"><b>Search Criteria</b></p>',
+            '<p class="font-style"><b>Beauty & Personal Care</b></p><p class="font-style"><b>Product Search</b></p>',
             unsafe_allow_html=True
         )
 
@@ -117,7 +117,7 @@ class GenerateProductRecs:
             unsafe_allow_html=True
         )
 
-        selection = st.sidebar.radio("", ("Products Metadata", "User Reviews", "Product Reviews"))
+        selection = st.sidebar.radio("", ("Products Metadata", "User Reviews", "Reviews Dashboard"))
 
         if selection == 'Products Metadata':
             components.iframe(
@@ -129,7 +129,7 @@ class GenerateProductRecs:
                 "https://datastudio.google.com/embed/reporting/30d14b66-5fa5-4eb7-8bb6-260b133762a1/page/WQHhC",
                 height=1200)
 
-        if selection == 'Product Reviews':
+        if selection == 'Reviews Dashboard':    
             components.iframe(
                 "https://datastudio.google.com/embed/reporting/66773423-a76a-4657-bdd9-9f739d032c50/page/j1BhC",
                 height=1000)
