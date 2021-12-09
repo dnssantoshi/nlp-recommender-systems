@@ -45,10 +45,14 @@ class BuildProductRecs:
         data = self.read_data()
 
         # Convert list into pandas dataframe
-        df = pd.DataFrame.from_dict(data)
+        df_dict = pd.DataFrame.from_dict(data)
+        st.write(df_dict.shape)
+        df = df_dict.sample(n=2000).reset_index(drop=True)
+        st.write(df.shape)
         st.write("Total Products in Amazon Luxury Beauty category: ", len(df))
 
         # Normalize details json attribute and extract all features
+        st.write()
         details = pd.json_normalize(df.details)
 
         # Rename columns more appropriately
@@ -74,7 +78,6 @@ class BuildProductRecs:
 
         # Retrieve rank
         df['ranking'] = df['rank'].transform(lambda x: str(x).split(' ', 1)[0].strip() if len(x) != 0 else 0)
-
 
         # Drop duplicate products
         df = df.drop_duplicates(subset=['productTitle'])
@@ -116,9 +119,6 @@ class BuildProductRecs:
         print("Clean complete!")
 
         # # Write to csv file (used later for reporting)
-        # Useful tip: cat wrangled_data.json | jq -c '.[]' when loading data to BigQuery
-        df.reset_index().to_json('wrangled_data.json',orient='records')   
-
         df[['asin', 'productTitle', 'primaryCategory', 'secondaryCategory', 'brand',
                  'price', 'itemModelNumber', 'imageURLHighRes', 'ranking', 'productDimensions', 'shippingWeight',
                  'domesticShipping', 'internationalShipping', 'discontinuedByManufacturer', 'batteries']].reset_index(drop=True).to_csv('wrangled_data.csv')

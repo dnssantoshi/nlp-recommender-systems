@@ -14,29 +14,17 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 # Define Constants
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.45rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
-# load the embeddings
-@st.cache(persist=True)
-def load_cosines():
-    cosine_sim = pd.read_pickle("https://storage.googleapis.com/project-data-09/cosine_sim.pkl")
-    return cosine_sim
-
-
 def load_data():
     # load the data from pickle files
-
     # These files are created as part of the model building process in BuildProductRecs.py
     df = pd.read_pickle('df.pkl')
     indices = pd.read_pickle('indices.pkl')
-
-    # loading the pickle files from google cloud storage as these files are too large to commit to Github.
-    cosine_sim = load_cosines()
+    cosine_sim = pd.read_pickle('cosine_sim.pkl')
 
     return df, cosine_sim, indices
 
-
 df, cosine_sim, indices = load_data()
 print("Data Load Complete!")
-
 
 class GenerateProductRecs:
 
@@ -70,6 +58,7 @@ class GenerateProductRecs:
             '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">',
             unsafe_allow_html=True,
         )
+        st.markdown("""<style> .sticky { background:white; position: fixed; top: 60px; width: 100%;} </style>""", unsafe_allow_html=True)
 
         query_params = st.experimental_get_query_params()
         tabs = ["Search", "Reports", "Overview"]
@@ -91,7 +80,7 @@ class GenerateProductRecs:
             for t in tabs
         )
         tabs_html = f"""
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs sticky">
             {li_items}
             </ul>
         """
@@ -277,12 +266,12 @@ class GenerateProductRecs:
         )
 
         self.construct_menu_tabs()
-        st.write(
-            '<style>body { margin: 0; font-family: Arial, Helvetica, sans-serif;} .header{margin: 0; background:white;padding: 0px 720px 0px 520px; '
-            'position:fixed;top:0;}</style><div class="header" id="myHeader">'
-            '<img src="https://www.freepnglogos.com/uploads/amazon-png-logo-vector/woodland-gardening-amazon-png-logo-vector-8.png" alt="Not Available" style="width:300px;height:80px;" />'
-            '</div>',
-            unsafe_allow_html=True)
+        # st.write(
+        #     '<style>body { margin: 0; font-family: Arial, Helvetica, sans-serif;} .header{margin: 0; background:white;padding: 0px 720px 0px 520px; '
+        #     'position:fixed;top:0;}</style><div class="header" id="myHeader">'
+        #     '<img src="https://www.freepnglogos.com/uploads/amazon-png-logo-vector/woodland-gardening-amazon-png-logo-vector-8.png" alt="Not Available" style="width:300px;height:80px;" />'
+        #     '</div>',
+        #     unsafe_allow_html=True)
 
         return self
 
